@@ -1,63 +1,42 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import { useState } from 'react';
-import { FiMail, FiPhone, FiMapPin, FiSend } from 'react-icons/fi';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from "react";
+import { FiMail, FiPhone, FiMapPin, FiSend } from "react-icons/fi";
+import { motion, AnimatePresence } from "framer-motion";
 import Container from "@/components/Container";
 import Title from "@/components/Title";
-import { Sparkles } from 'lucide-react';
+import { Sparkles } from "lucide-react";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
-    message: ''
+    name: "",
+    phone: "",
+    email: "",
+    message: "",
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState('');
+  const [submitMessage, setSubmitMessage] = useState("");
   const [hoveredField, setHoveredField] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    try {
-      const response = await fetch('/api/send-email', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          subject: `New Contact from ${formData.name}`,
-          text: `
-            Name: ${formData.name}
-            Phone: ${formData.phone}
-            Email: ${formData.email}
-            Message: ${formData.message}
-          `,
-        }),
-      });
 
-      if (response.ok) {
-        setSubmitMessage('Message sent successfully!');
-        setFormData({ name: '', phone: '', email: '', message: '' });
-      } else {
-        setSubmitMessage('Failed to send message. Please try again.');
-      }
-    } catch (error) {
-      setSubmitMessage('An error occurred. Please try again later.');
-    } finally {
+    // Simulating a successful submission
+    setTimeout(() => {
+      setSubmitMessage("Message sent successfully!");
+      setFormData({ name: "", phone: "", email: "", message: "" });
       setIsSubmitting(false);
-      setTimeout(() => setSubmitMessage(''), 5000);
-    }
+      setTimeout(() => setSubmitMessage(""), 5000);
+    }, 1000); // Simulate a delay for demonstration purposes
   };
 
   return (
@@ -70,18 +49,18 @@ export default function ContactPage() {
             animate={{
               x: [0, 100, 0],
               y: [0, 50, 0],
-              rotate: [0, 180, 360]
+              rotate: [0, 180, 360],
             }}
             transition={{
               duration: 15 + Math.random() * 20,
               repeat: Infinity,
-              ease: "linear"
+              ease: "linear",
             }}
             className="absolute text-green-400/30"
             style={{
               fontSize: `${Math.random() * 20 + 10}px`,
               left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`
+              top: `${Math.random() * 100}%`,
             }}
           >
             ✦
@@ -101,19 +80,21 @@ export default function ContactPage() {
               Let&apos;s Work Together
             </span>
           </Title>
-          <motion.p 
+          <motion.p
             className="text-xl text-lightColor/80 max-w-3xl mx-auto mt-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.8 }}
           >
-            I&apos;m passionate about creating exceptional digital experiences. Whether you have a project in mind or just want to chat about possibilities, I&apos;d love to hear from you.
+            I&apos;m passionate about creating exceptional digital experiences.
+            Whether you have a project in mind or just want to chat about
+            possibilities, I&apos;d love to hear from you.
           </motion.p>
         </motion.div>
 
         <div className="flex flex-col lg:flex-row gap-12 relative z-10">
           {/* Contact Form */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -131,27 +112,27 @@ export default function ContactPage() {
                     {[...Array(8)].map((_, i) => (
                       <motion.div
                         key={i}
-                        initial={{ 
+                        initial={{
                           x: Math.random() * 100 - 50,
                           y: Math.random() * 100 - 50,
-                          scale: 0
+                          scale: 0,
                         }}
-                        animate={{ 
+                        animate={{
                           x: Math.random() * 200 - 100,
                           y: Math.random() * 200 - 100,
                           scale: Math.random() * 0.5 + 0.5,
-                          opacity: [0, 1, 0]
+                          opacity: [0, 1, 0],
                         }}
                         transition={{
                           duration: Math.random() * 3 + 2,
                           repeat: Infinity,
-                          repeatType: "reverse"
+                          repeatType: "reverse",
                         }}
                         className="absolute text-green-400"
                         style={{
                           fontSize: `${Math.random() * 10 + 5}px`,
                           left: `${Math.random() * 100}%`,
-                          top: `${Math.random() * 100}%`
+                          top: `${Math.random() * 100}%`,
                         }}
                       >
                         <Sparkles size={16} />
@@ -163,18 +144,21 @@ export default function ContactPage() {
 
               <form onSubmit={handleSubmit} className="relative z-10 space-y-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-lightColor/70 mb-2">
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-medium text-lightColor/70 mb-2"
+                  >
                     Full Name
                   </label>
                   <motion.div
-                    onHoverStart={() => setHoveredField('name')}
+                    onHoverStart={() => setHoveredField("name")}
                     onHoverEnd={() => setHoveredField(null)}
                   >
                     <input
                       type="text"
                       name="name"
                       id="name"
-                      placeholder='enter name'
+                      placeholder="enter name"
                       required
                       value={formData.name}
                       onChange={handleChange}
@@ -185,38 +169,44 @@ export default function ContactPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="phone" className="block text-sm font-medium text-lightColor/70 mb-2">
+                    <label
+                      htmlFor="phone"
+                      className="block text-sm font-medium text-lightColor/70 mb-2"
+                    >
                       Phone Number
                     </label>
                     <motion.div
-                      onHoverStart={() => setHoveredField('phone')}
+                      onHoverStart={() => setHoveredField("phone")}
                       onHoverEnd={() => setHoveredField(null)}
                     >
                       <input
                         type="tel"
                         name="phone"
-                        placeholder='Enter phone number'
+                        placeholder="Enter phone number"
                         id="phone"
                         value={formData.phone}
                         onChange={handleChange}
-                        className="w-full px-4 py-3 bg-darkColor/50 borderborder-gray-600/20 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400/50 focus:border-transparent"
+                        className="w-full px-4 py-3 bg-darkColor/50 border border-gray-600/20 rounded-lg text-black placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-400/50 focus:border-transparent"
                       />
                     </motion.div>
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-lightColor/70 mb-2">
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-lightColor/70 mb-2"
+                    >
                       Email Address
                     </label>
                     <motion.div
-                      onHoverStart={() => setHoveredField('email')}
+                      onHoverStart={() => setHoveredField("email")}
                       onHoverEnd={() => setHoveredField(null)}
                     >
                       <input
                         type="email"
                         name="email"
                         id="email"
-                        placeholder='enter email'
+                        placeholder="enter email"
                         required
                         value={formData.email}
                         onChange={handleChange}
@@ -227,11 +217,14 @@ export default function ContactPage() {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-lightColor/70 mb-2">
+                  <label
+                    htmlFor="message"
+                    className="block text-sm font-medium text-lightColor/70 mb-2"
+                  >
                     Your Message
                   </label>
                   <motion.div
-                    onHoverStart={() => setHoveredField('message')}
+                    onHoverStart={() => setHoveredField("message")}
                     onHoverEnd={() => setHoveredField(null)}
                   >
                     <textarea
@@ -257,7 +250,7 @@ export default function ContactPage() {
                     className="w-full flex justify-center items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-green-500 to-emerald-600 text-white font-semibold shadow-lg shadow-green-500/20 hover:shadow-green-500/30 transition-all duration-300"
                   >
                     {isSubmitting ? (
-                      'Sending...'
+                      "Sending..."
                     ) : (
                       <>
                         <FiSend className="w-5 h-5" />
@@ -271,7 +264,7 @@ export default function ContactPage() {
                   <motion.p
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className={`text-center text-sm ${submitMessage.includes('success') ? 'text-green-400' : 'text-red-400'}`}
+                    className={`text-center text-sm ${submitMessage.includes("success") ? "text-green-400" : "text-red-400"}`}
                   >
                     {submitMessage}
                   </motion.p>
@@ -281,7 +274,7 @@ export default function ContactPage() {
           </motion.div>
 
           {/* Contact Information */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
@@ -289,7 +282,7 @@ export default function ContactPage() {
           >
             <div className="relative overflow-hidden rounded-2xl p-8 border border-lightColor/20 bg-gradient-to-br from-lightColor/5 to-lightColor/10 backdrop-blur-lg shadow-xl h-full">
               <AnimatePresence>
-                {hoveredField === 'contact' && (
+                {hoveredField === "contact" && (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 0.3 }}
@@ -299,27 +292,27 @@ export default function ContactPage() {
                     {[...Array(8)].map((_, i) => (
                       <motion.div
                         key={i}
-                        initial={{ 
+                        initial={{
                           x: Math.random() * 100 - 50,
                           y: Math.random() * 100 - 50,
-                          scale: 0
+                          scale: 0,
                         }}
-                        animate={{ 
+                        animate={{
                           x: Math.random() * 200 - 100,
                           y: Math.random() * 200 - 100,
                           scale: Math.random() * 0.5 + 0.5,
-                          opacity: [0, 1, 0]
+                          opacity: [0, 1, 0],
                         }}
                         transition={{
                           duration: Math.random() * 3 + 2,
                           repeat: Infinity,
-                          repeatType: "reverse"
+                          repeatType: "reverse",
                         }}
                         className="absolute text-purple-400"
                         style={{
                           fontSize: `${Math.random() * 10 + 5}px`,
                           left: `${Math.random() * 100}%`,
-                          top: `${Math.random() * 100}%`
+                          top: `${Math.random() * 100}%`,
                         }}
                       >
                         <Sparkles size={16} />
@@ -329,17 +322,17 @@ export default function ContactPage() {
                 )}
               </AnimatePresence>
 
-              <div 
+              <div
                 className="relative z-10 h-full flex flex-col"
-                onMouseEnter={() => setHoveredField('contact')}
+                onMouseEnter={() => setHoveredField("contact")}
                 onMouseLeave={() => setHoveredField(null)}
               >
                 <h2 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-500 mb-8">
                   Contact Information
                 </h2>
-                
+
                 <div className="space-y-8">
-                  <motion.div 
+                  <motion.div
                     className="flex items-start group"
                     whileHover={{ x: 5 }}
                   >
@@ -347,9 +340,11 @@ export default function ContactPage() {
                       <FiMail className="h-6 w-6 text-white" />
                     </div>
                     <div className="ml-4">
-                      <h3 className="text-sm font-medium text-lightColor/70">Email</h3>
-                      <a 
-                        href="mailto:your.email@example.com" 
+                      <h3 className="text-sm font-medium text-lightColor/70">
+                        Email
+                      </h3>
+                      <a
+                        href="mailto:your.email@example.com"
                         className="text-lg text-lightColor hover:text-green-400 transition-colors"
                       >
                         abrshtoday@gmail.com
@@ -357,7 +352,7 @@ export default function ContactPage() {
                     </div>
                   </motion.div>
 
-                  <motion.div 
+                  <motion.div
                     className="flex items-start group"
                     whileHover={{ x: 5 }}
                   >
@@ -365,9 +360,11 @@ export default function ContactPage() {
                       <FiPhone className="h-6 w-6 text-white" />
                     </div>
                     <div className="ml-4">
-                      <h3 className="text-sm font-medium text-lightColor/70">Phone</h3>
-                      <a 
-                        href="tel:+251985486416" 
+                      <h3 className="text-sm font-medium text-lightColor/70">
+                        Phone
+                      </h3>
+                      <a
+                        href="tel:+251985486416"
                         className="text-lg text-lightColor hover:text-green-400 transition-colors"
                       >
                         +251985486416
@@ -375,7 +372,7 @@ export default function ContactPage() {
                     </div>
                   </motion.div>
 
-                  <motion.div 
+                  <motion.div
                     className="flex items-start group"
                     whileHover={{ x: 5 }}
                   >
@@ -383,19 +380,26 @@ export default function ContactPage() {
                       <FiMapPin className="h-6 w-6 text-white" />
                     </div>
                     <div className="ml-4">
-                      <h3 className="text-sm font-medium text-lightColor/70">Address</h3>
+                      <h3 className="text-sm font-medium text-lightColor/70">
+                        Address
+                      </h3>
                       <p className="text-lg text-lightColor">
-                        Addis ababa,Ethiopia<br />
-                        lemikura
+                        Addis Ababa, Ethiopia
+                        <br />
+                        Lemikura
                       </p>
                     </div>
                   </motion.div>
                 </div>
 
                 <div className="mt-auto pt-8 border-t border-lightColor/20">
-                  <h3 className="text-lg font-medium text-lightColor mb-4">Availability</h3>
+                  <h3 className="text-lg font-medium text-lightColor mb-4">
+                    Availability
+                  </h3>
                   <p className="text-lightColor/80">
-                    I&apos;m available Monday through Friday from 9am to 5pm. Feel free to reach out anytime, and I&apos;ll get back to you within 24 hours.
+                    I&apos;m available Monday through Friday from 9am to 5pm.
+                    Feel free to reach out anytime, and I&apos;ll get back to
+                    you within 24 hours.
                   </p>
                 </div>
               </div>

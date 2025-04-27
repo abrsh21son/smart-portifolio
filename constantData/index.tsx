@@ -267,7 +267,7 @@ export const projects = [
   {
     id: "03",
     title: "Project Management",
-    category: "Frontend",
+    category: "Frontend", 
     description:
       "This project focuses on creating an intuitive project management tool that allows users to organize tasks, assign team members, and track progress efficiently. With a user-friendly interface and responsive design, it enhances team collaboration and productivity.",
     stack: ["React", "Tailwind CSS"],
